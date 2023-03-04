@@ -1,16 +1,30 @@
 const express = require('express');
+const {Director} = require('../db');
 
 function list(req, res, next) {
-    res.send('respond with a director list');
+    Director.findAll()
+            .then(objects => res.json(objects))
+            .catch(error => res.send(error));
 }
 
 function index(req, res, next) {
-    res.send(`respond with a index of a director= ${req.params.id}`);
+    const id = req.params.id;
+    Director.findByPk(id)
+            .then(object => res.json(object))
+            .catch(error => res.send(error));
 }
 
 function create(req, res, next) {
-    let title = req.body.title;
-    res.send(`respond with a create title director =${title}`);
+    let name = req.body.name;
+    let lastName = req.body.lastName;
+
+    let director = new Object({
+        name:name,
+        lastName:lastName
+    });
+    Director.create(director)
+            .then(obj => res.json(obj))
+            .catch(err => res.json(err));
 }
 
 function replace(req, res, next) {
