@@ -1,21 +1,34 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
 
-var usersRouter = require('./routes/users');
-var movieRouter = require('./routes/movie');
-var bookingRouter = require('./routes/booking');
-var copyRouter = require('./routes/copy');
-var genresRouter = require('./routes/genres');
-var actorsRouter = require('./routes/actors');
-var directorsRouter = require('./routes/directors');
-var membersRouter = require('./routes/members');
-var adressRouter = require('./routes/adress');
+const usersRouter = require('./routes/users');
+const movieRouter = require('./routes/movie');
+const bookingRouter = require('./routes/booking');
+const copyRouter = require('./routes/copy');
+const genresRouter = require('./routes/genres');
+const actorsRouter = require('./routes/actors');
+const directorsRouter = require('./routes/directors');
+const membersRouter = require('./routes/members');
+const adressRouter = require('./routes/adress');
 
 
-var app = express();
+const uri = "mongodb://localhost:27017/video-club-app";
+mongoose.connect(uri);
+
+const db = mongoose.connection;
+
+const app = express();
+
+db.on('open', ()=> {
+  console.log("Conection ok");
+})
+db.on('error', ()=> {
+  console.log("Connection not ok");
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
