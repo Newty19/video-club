@@ -26,6 +26,7 @@ function create(req, res, next) {
     Actor.create(actor)
             .then( obj => res.json(obj))    
             .catch( err => res.json(err));
+    //add movie
 }
 
 function replace(req, res, next) {
