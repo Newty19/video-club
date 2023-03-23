@@ -10,8 +10,8 @@ function list(req, res, next) {
 function index(req, res, next) {
    const id = req.params.id;
    Director.findByPk(id)
-            .then(object => res.json(object))
-            .catch(err => res.send(error));
+           .then(object => res.json(object))
+           .catch(err => res.send(error));
 }
 
 function create(req, res, next) {

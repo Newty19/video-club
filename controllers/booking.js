@@ -1,28 +1,60 @@
 const express = require('express');
+const { Booking } = require('../db');
 
 function list(req, res, next) {
-    res.send('respond with a booking list');
+    Booking.findAll()
+        .then(objects => res.json(objects))
+        .catch(err => res.send(error));
 }
 
 function index(req, res, next) {
-    res.send(`respond with a index of a booking= ${req.params.id}`);
+    const id = req.params.id;
+    Booking.findByPk(id)
+        .then(object => res.json(object))
+        .catch(err => res.send(error));
 }
 
 function create(req, res, next) {
-    let title = req.body.title;
-    res.send(`respond with a create title booking =${title}`);
+    let date = req.body.date;
+    
+    let copy = new Object({
+        date:date
+    });
+
+    Copy.create(copy)
+        .then( obj => res.json(obj))    
+        .catch( err => res.json(err));
 }
 
 function replace(req, res, next) {
-    res.send(`respond with a replace booking= ${req.params.id}`);
+    const id = req.params.id;
+    Copy.findByPk(id)
+            .then((object) => {
+                const date = req.body.date ? req.body.date : "";
+                object.update({number: number, date: date})
+                .then(obj => res.json(obj))
+                .catch(err => res.send(err));
+            })
+            .catch(err => res.send(err));
 }
 
 function update(req, res, next) {
-    res.send(`respond with a update booking = ${req.params.id}`);
+    const id = req.params.id;
+    Copy.findByPk(id)
+            .then((object) => {
+                const date = req.body.date ? req.body.date : object.date;
+                object.update({number: number, date: date})
+                .then(obj => res.json(obj))
+                .catch(err => res.send(err));
+            })
+            .catch(err => res.send(err));
 }
 
 function destroy(req, res, next) {
-    res.send(`respond with a destory booking= ${req.params.id}`);
+    const id = req.params.id;
+    Copy.destroy({ where: {id:id}})
+            .then(obj => res.json(obj))
+            .catch(err => res.send(err));
 }
 
 module.exports = { 
