@@ -22,7 +22,7 @@ function create(req, res, next) {
         genreId:genreId,
         directorId:directorId,
     });
-
+ 
     Movie.create(movie)  
          .then(obj => res.json(obj))    
          .catch(err => res.send(err));
@@ -40,7 +40,6 @@ function addActor(req, res, next){
                     res.json(movie);
                  }).catch(err => res.send(err));
         }).catch(err => res.send(err));
-    
 }
 
 function replace(req, res, next) {
