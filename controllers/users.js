@@ -9,10 +9,6 @@ function index(req, res, next) {
 }
 
 function create(req, res, next) {
-    let name = req.body.name;
-    let lastName = req.body.lastName;
-    let email = req.body.email;
-    let password = req.body.password;
     res.send(`respond with a create name =${name} and lastname = ${lastName}`);
 }
 

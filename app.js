@@ -6,7 +6,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 
 const usersRouter = require('./routes/users');
-const movieRouter = require('./routes/movie');
+const movieRouter = require('./routes/movies');
 const bookingRouter = require('./routes/booking');
 const copyRouter = require('./routes/copy');
 const genresRouter = require('./routes/genres');
@@ -41,7 +41,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRouter);
-app.use('/movie', movieRouter);
+app.use('/movies', movieRouter);
 app.use('/booking',bookingRouter);
 app.use('/copy',copyRouter);
 app.use('/genres',genresRouter);
