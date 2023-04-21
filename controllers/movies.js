@@ -40,7 +40,25 @@ async function create(req, res, next) {
 }
 
 function replace(req, res, next) {
-    res.send(`respond with a replace movie= ${req.params.id}`);
+    const id = req.params.id;
+    let name = req.body.name ? req.body.name : "";
+    let lastName = req.body.lastName ? req.body.lastName : "";
+    let phone = req.body.phone ? req.body.phone : "";
+
+    let User = new Object({
+        _name: name,
+        _lastName: lastName,
+        _phone: phone
+    });
+    //User.findOneAndUpdate({},director,{}).then().catch();
+    User.findOneAndUpdate({"_id":id},User,{new : true})
+            .then(obj => res.status(200).json({
+                message: "User actualizado correctamente",
+                obj: obj
+            })).catch(ex => res.status(500).json({
+                message: "No se pudo actualizar la informacion",
+                obj:ex
+            }));
 }
 
 function update(req, res, next) {
