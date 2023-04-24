@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema({
     _name:String,
     _lastName:String,
+    _email: String,
+    _password: String,
+    _salt: String,
     _phone:String
 
 });
@@ -16,6 +19,9 @@ class User {
         this._name = name;
         this._lastName = lastName;
         this._phone = phone;
+        this._email = email;
+        this._password = password;
+        this._salt = salt;
     }
     get name(){
         return this._name;
@@ -34,6 +40,29 @@ class User {
     }
     set phone(v){
         this._phone = v;
+    }
+    get email(){
+        return this._email;
+    }
+
+    set email(v){
+        this._email = v;
+    }
+
+    get password(){
+        return this._password;
+    }
+
+    set password(v){
+        this._password = v;
+    }
+
+    get salt(){
+        return this._salt;
+    }
+
+    set salt(v){
+        this._salt = v;
     }
 
 }

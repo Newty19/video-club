@@ -1,5 +1,7 @@
 const express = require('express');
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
+
 function list(req, res, next) {
     User.find().then(objs => res.status(200).json({
         message: "Lista de usuarios",
@@ -21,24 +23,32 @@ function index(req, res, next) {
     }));
 }
 
-function create(req, res, next) {
+async function create(req, res, next) {
     let name = req.body.name;
-    let lastName = req.body.lastName;
-    let phone = req.body.phone;
+    let lastname = req.body.lastName;
+    let email = req.body.email;
+    let password = req.body.password;
+
+    //Generar el salt con las iteraciones para generar la cadena
+    const salt = await bcrypt.genSalt(10);
+
+    const passwordHash = await bcrypt.hash(password, salt);
 
     let user = new User({
-        name:name,
-        lastName:lastName,
-        phone:phone
+        name: name,
+        lastname: lastname,
+        email: email,
+        password: passwordHash,
+        salt: salt
     });
 
     user.save().then(obj => res.status(200).json({
-        message:"User creado correctamente.",
-        obj:obj
-    })).catch(ex => res.status(500).json({
-        message: "User no se pudo crear.",
-        ex:ex
-    }));
+        message: "Usuario creado correctamente",
+        obj: obj
+        })).catch(ex => res.status(500).json({
+            message: "No se pudo almacenar el usuario",
+            obj: ex
+        }));
 }
 
 function replace(req, res, next) {

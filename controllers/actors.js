@@ -1,5 +1,6 @@
 const express = require('express');
 const Actor = require('../models/actor');
+
 function list(req, res, next) {
     Actor.find().then(objs => res.status(200).json({
         message: "Lista de usuarios",

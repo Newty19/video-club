@@ -12,6 +12,8 @@ const copyRouter = require('./routes/copy');
 const genresRouter = require('./routes/genres');
 const actorsRouter = require('./routes/actors');
 const directorsRouter = require('./routes/directors');
+const membersRouter = require('./routes/members');
+const indexRouter = require('./routes/index');
 
 
 const uri = "mongodb://localhost:27017/video-club-app";
@@ -45,6 +47,8 @@ app.use('/copy',copyRouter);
 app.use('/genres',genresRouter);
 app.use('/actors',actorsRouter);
 app.use('/directors',directorsRouter);
+app.use('/members',membersRouter);
+app.use('/',indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
