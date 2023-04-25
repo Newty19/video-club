@@ -22,6 +22,7 @@ async function create(req, res, next) {
     const directorId = req.body.directorId;
 
     let director = await Director.findOne({"_id":directorId});
+    
     let movie = new Movie({
         title:title,
         director:director

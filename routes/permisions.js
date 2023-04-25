@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/users')
+const controller = require('../controllers/permisions')
 
 /* GET users listing. */
 router.get('/', controller.list);
@@ -8,8 +8,6 @@ router.get('/', controller.list);
 router.get('/:id', controller.index);
 
 router.post('/', controller.create);
-
-router.patch('/addPermision/:id', controller.addPermision);
 
 router.put('/:id', controller.replace);
 

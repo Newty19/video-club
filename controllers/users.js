@@ -1,9 +1,10 @@
 const express = require('express');
 const User = require('../models/user');
+const Permision = require('../models/permision');
 const bcrypt = require('bcrypt');
 
 function list(req, res, next) {
-    User.find().then(objs => res.status(200).json({
+    User.find().populate("_permisions").then(objs => res.status(200).json({
         message: "Lista de usuarios",
         obj: objs
     })).catch(ex => res.status(500).json({
@@ -11,7 +12,6 @@ function list(req, res, next) {
         obj: ex
     }));
 }
-
 function index(req, res, next) {
     const id = req.params.id;
     User.findOne({"_id":id}).then(obj => res.status(200).json({
@@ -25,21 +25,27 @@ function index(req, res, next) {
 
 async function create(req, res, next) {
     let name = req.body.name;
-    let lastname = req.body.lastName;
+    let lastName = req.body.lastName;
     let email = req.body.email;
     let password = req.body.password;
+    let phone = req.body.phone;
+    let permisionId = req.body.permisionId;
 
     //Generar el salt con las iteraciones para generar la cadena
     const salt = await bcrypt.genSalt(10);
 
     const passwordHash = await bcrypt.hash(password, salt);
 
+    let permisions = await Permision.findOne({"_id":permisionId});
+
     let user = new User({
         name: name,
-        lastname: lastname,
+        lastName: lastName,
         email: email,
         password: passwordHash,
-        salt: salt
+        phone: phone,
+        salt: salt,
+        permisions:permisions
     });
 
     user.save().then(obj => res.status(200).json({
@@ -91,6 +97,26 @@ function update(req, res, next) {
         User._phone = phone;
     }
 
+    User.findAndModify({"_id":id},User)
+            .then(obj => res.status(200).json({
+                message:"User actualizado correctamente.",
+                obj:obj
+            })).catch(ex => res.status(500).json({
+                message: "No se pudo actualizar la User",
+                obj:ex
+            }));
+}
+function addPermision(req,res,next){
+    const id = req.params.id;
+    const permisionId = req.body.id;
+
+    let User = new Object();
+
+    if(permisionId){
+        User._permisions.push(permisionId);
+    }
+
+
     User.findOneAndUpdate({"_id":id},User)
             .then(obj => res.status(200).json({
                 message:"User actualizado correctamente.",
@@ -119,5 +145,6 @@ module.exports = {
     create,
     replace,
     update,
-    destroy
+    destroy,
+    addPermision
 };
