@@ -8,10 +8,12 @@ const schema = mongoose.Schema({
     _email: String,
     _password: String,
     _salt: String,
-    _permisions: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Permision'
-    }
+    _permisions: [{
+        permision: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Permision'
+        }
+    }]
 
 });
 

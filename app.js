@@ -4,6 +4,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const config = require('config');
+const {expressjwt} = require('express-jwt');
+const i18n = require('i18n');
+
 
 const usersRouter = require('./routes/users');
 const movieRouter = require('./routes/movies');
@@ -16,8 +20,10 @@ const membersRouter = require('./routes/members');
 const indexRouter = require('./routes/index');
 const permisionsRouter = require('./routes/permisions');
 
+const jwtKey = config.get("secret.key");
 
-const uri = "mongodb://localhost:27017/video-club-app";
+
+const uri = config.get("dbChain");
 mongoose.connect(uri);
 
 const db = mongoose.connection;
@@ -26,9 +32,15 @@ const app = express();
 
 db.on('open', ()=> {
   console.log("Conection ok");
-})
+});
 db.on('error', ()=> {
   console.log("Connection not ok");
+});
+
+i18n.configure({
+  locales:['es','en'],
+  cookie: 'language',
+  directory: `${__dirname}/locales`
 })
 
 // view engine setup
@@ -40,7 +52,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(i18n.init);
 
+app.use(expressjwt({secret:jwtKey,algorithms: ['HS256']})
+   .unless({path:["/login"]}));
 app.use('/users', usersRouter);
 app.use('/movies', movieRouter);
 app.use('/booking',bookingRouter);

@@ -4,7 +4,7 @@ const Permision = require('../models/permision');
 const bcrypt = require('bcrypt');
 
 function list(req, res, next) {
-    User.find().populate("_permisions").then(objs => res.status(200).json({
+    User.find().populate("_permisions.permision").then(objs => res.status(200).json({
         message: "Lista de usuarios",
         obj: objs
     })).catch(ex => res.status(500).json({
@@ -110,19 +110,18 @@ function addPermision(req,res,next){
     const id = req.params.id;
     const permisionId = req.body.id;
 
-    let User = new Object();
+    let user = new Object();
 
     if(permisionId){
-        User._permisions.push(permisionId);
+        user._permisions.push(permisionId,'Permision');
     }
 
-
-    User.findOneAndUpdate({"_id":id},User)
+    User.findOneAndUpdate({"_id":id},user)
             .then(obj => res.status(200).json({
-                message:"User actualizado correctamente.",
+                message:"permisos agregado correctamente.",
                 obj:obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo actualizar la User",
+                message: "No se pudo actualizar los permisos",
                 obj:ex
             }));
 }
