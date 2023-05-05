@@ -2,10 +2,10 @@ const express = require('express');
 const Copy = require('../models/copy');
 function list(req, res, next) {
     Copy.find().then(objs => res.status(200).json({
-        message: "Lista de copias",
+        message: res.__('ok.copy'),
         obj: objs
     })).catch(ex => res.status(500).json({
-        message: "No se pudo consultar la informacion",
+        message: res.__('bad.copy'),
         obj: ex
     }));
 }
@@ -13,10 +13,10 @@ function list(req, res, next) {
 function index(req, res, next) {
     const id = req.params.id;
     Copy.findOne({"_id":id}).then(obj => res.status(200).json({
-        message: `Copy con id ${id}`, // Interpolacion
+        message: res.__('ok.copy'),
         obj: obj
     })).catch(ex => res.status(500).json({
-        message: "No se pudo consultar la informacion",
+        message:res.__('bad.copy'),
         obj:ex
     }));
 }
@@ -29,10 +29,10 @@ function create(req, res, next) {
     });
 
     copy.save().then(obj => res.status(200).json({
-        message:"Copy creado correctamente.",
+        message: res.__('ok.copy'),
         obj:obj
     })).catch(ex => res.status(500).json({
-        message: "Copy no se pudo crear.",
+        message: res.__('bad.copy'),
         ex:ex
     }));
 }
@@ -47,10 +47,10 @@ function replace(req, res, next) {
     //Copy.findOneAndUpdate({},director,{}).then().catch();
     Copy.findOneAndUpdate({"_id":id},copy,{new : true})
             .then(obj => res.status(200).json({
-                message: "Copy actualizado correctamente",
+                message:res.__('ok.copy'),
                 obj: obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo actualizar la informacion",
+                message: res.__('bad.copy'),
                 obj:ex
             }));
 }
@@ -67,10 +67,10 @@ function update(req, res, next) {
 
     Copy.findOneAndUpdate({"_id":id},copy)
             .then(obj => res.status(200).json({
-                message:"Copy actualizado correctamente.",
+                message: res.__('ok.copy'),
                 obj:obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo actualizar la copy",
+                message: res.__('bad.copy'),
                 obj:ex
             }));
 }
@@ -79,10 +79,10 @@ function destroy(req, res, next) {
     const id = req.params.id;
     Copy.findByIdAndRemove({"_id":id})
             .then(obj => res.status(200).json({
-                message: "Copy eliminado correctamente",
+                message: res.__('ok.copy'),
                 obj:obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo eliminar la copy",
+                message: res.__('bad.copy'),
                 obj:ex
             }));
 }

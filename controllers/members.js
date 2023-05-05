@@ -3,16 +3,23 @@ const Member = require('../models/members');
 
 function list(req, res, next) {
     Member.find().then(objs => res.status(200).json({
-        message: "Listado de socios",
+        message: res.__('ok.member'),
         obj: objs
     })).catch(ex => res.status(500).json({
-        message: "No se pudo mostrar los socios",
+        message: res.__('bad.member'),
         obj:ex
     }));
 }
 
 function index(req, res, next) {
-    res.send(`respond with a index of a actor= ${req.params.id}`);
+    const id = req.params.id;
+    Member.findOne({"_id":id}).then(obj => res.status(200).json({
+        message: res.__('ok.member'),
+        obj: obj
+    })).catch(ex => res.status(500).json({
+        message: res.__('bad.member'),
+        obj:ex
+    }));
 }
 
 function create(req, res, next) {
@@ -34,7 +41,7 @@ function create(req, res, next) {
     });
 
     member.save().then(obj => res.status(200).json({
-        message: "Socio creado correctamente",
+        message: res.__('ok.member'),
         obj: obj
     })).catch(ex => res.status(500).json({
         message: "No se pudo almacenar el socio",

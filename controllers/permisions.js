@@ -2,10 +2,10 @@ const express = require('express');
 const Permision = require('../models/permision');
 function list(req, res, next) {
     Permision.find().then(objs => res.status(200).json({
-        message: "Lista de generos",
+        message: res.__('ok.permision'),
         obj: objs
     })).catch(ex => res.status(500).json({
-        message: "No se pudo consultar la informacion",
+        message: res.__('bad.permision'),
         obj: ex
     }));
 }
@@ -13,10 +13,10 @@ function list(req, res, next) {
 function index(req, res, next) {
     const id = req.params.id;
     Permision.findOne({"_id":id}).then(obj => res.status(200).json({
-        message: `Permision con id ${id}`, // Interpolacion
+        message: res.__('ok.permision'),
         obj: obj
     })).catch(ex => res.status(500).json({
-        message: "No se pudo consultar la informacion",
+        message: res.__('bad.permision'),
         obj:ex
     }));
 }
@@ -31,10 +31,10 @@ function create(req, res, next) {
     });
 
     permision.save().then(obj => res.status(200).json({
-        message:"Permision creado correctamente.",
+        message: res.__('ok.permision'),
         obj:obj
     })).catch(ex => res.status(500).json({
-        message: "Permision no se pudo crear.",
+        message: res.__('bad.permision'),
         ex:ex
     }));
 }
@@ -51,10 +51,10 @@ function replace(req, res, next) {
     //Permision.findOneAndUpdate({},director,{}).then().catch();
     Permision.findOneAndUpdate({"_id":id},Permision,{new : true})
             .then(obj => res.status(200).json({
-                message: "Permision actualizado correctamente",
+                message: res.__('ok.permision'),
                 obj: obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo actualizar la informacion",
+                message: res.__('bad.permision'),
                 obj:ex
             }));
 }
@@ -72,10 +72,10 @@ function update(req, res, next) {
 
     Permision.findOneAndUpdate({"_id":id},Permision)
             .then(obj => res.status(200).json({
-                message:"Permision actualizado correctamente.",
+                message: res.__('ok.permision'),
                 obj:obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo actualizar la Permision",
+                message: res.__('bad.permision'),
                 obj:ex
             }));
 }
@@ -84,10 +84,10 @@ function destroy(req, res, next) {
     const id = req.params.id;
     Permision.findByIdAndRemove({"_id":id})
             .then(obj => res.status(200).json({
-                message: "Permision eliminado correctamente",
+                message: res.__('ok.permision'),
                 obj:obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo eliminar la Permision",
+                message: res.__('bad.permision'),
                 obj:ex
             }));
 }

@@ -2,10 +2,10 @@ const express = require('express');
 const Genre = require('../models/genres');
 function list(req, res, next) {
     Genre.find().then(objs => res.status(200).json({
-        message: "Lista de generos",
+        message: res.__('ok.genre'),
         obj: objs
     })).catch(ex => res.status(500).json({
-        message: "No se pudo consultar la informacion",
+        message: res.__('bad.genre'),
         obj: ex
     }));
 }
@@ -13,10 +13,10 @@ function list(req, res, next) {
 function index(req, res, next) {
     const id = req.params.id;
     Genre.findOne({"_id":id}).then(obj => res.status(200).json({
-        message: `Genre con id ${id}`, // Interpolacion
+        message: res.__('ok.genre'), // Interpolacion
         obj: obj
     })).catch(ex => res.status(500).json({
-        message: "No se pudo consultar la informacion",
+        message: res.__('bad.genre'),
         obj:ex
     }));
 }
@@ -29,10 +29,10 @@ function create(req, res, next) {
     });
 
     genre.save().then(obj => res.status(200).json({
-        message:"Genre creado correctamente.",
+        message: res.__('ok.genre'),
         obj:obj
     })).catch(ex => res.status(500).json({
-        message: "Genre no se pudo crear.",
+        message: res.__('bad.genre'),
         ex:ex
     }));
 }
@@ -47,10 +47,10 @@ function replace(req, res, next) {
     //Genre.findOneAndUpdate({},director,{}).then().catch();
     Genre.findOneAndUpdate({"_id":id},Genre,{new : true})
             .then(obj => res.status(200).json({
-                message: "Genre actualizado correctamente",
+                message: res.__('ok.genre'),
                 obj: obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo actualizar la informacion",
+                message: res.__('bad.genre'),
                 obj:ex
             }));
 }
@@ -67,10 +67,10 @@ function update(req, res, next) {
 
     Genre.findOneAndUpdate({"_id":id},Genre)
             .then(obj => res.status(200).json({
-                message:"Genre actualizado correctamente.",
+                message: res.__('ok.genre'),
                 obj:obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo actualizar la Genre",
+                message: res.__('bad.genre'),
                 obj:ex
             }));
 }
@@ -79,10 +79,10 @@ function destroy(req, res, next) {
     const id = req.params.id;
     Genre.findByIdAndRemove({"_id":id})
             .then(obj => res.status(200).json({
-                message: "Genre eliminado correctamente",
+                message: res.__('ok.genre'),
                 obj:obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo eliminar la Genre",
+                message: res.__('bad.genre'),
                 obj:ex
             }));
 }

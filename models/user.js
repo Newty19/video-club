@@ -9,10 +9,8 @@ const schema = mongoose.Schema({
     _password: String,
     _salt: String,
     _permisions: [{
-        permision: {
             type: mongoose.Schema.ObjectId,
             ref: 'Permision'
-        }
     }]
 
 });

@@ -4,21 +4,21 @@ const Permision = require('../models/permision');
 const bcrypt = require('bcrypt');
 
 function list(req, res, next) {
-    User.find().populate("_permisions.permision").then(objs => res.status(200).json({
-        message: "Lista de usuarios",
+    User.find().populate("_permisions").then(objs => res.status(200).json({
+        message: res.__('ok.user'),
         obj: objs
     })).catch(ex => res.status(500).json({
-        message: "No se pudo consultar la informacion",
+        message: res.__('bad.user'),
         obj: ex
     }));
 }
 function index(req, res, next) {
     const id = req.params.id;
     User.findOne({"_id":id}).then(obj => res.status(200).json({
-        message: `User con id ${id}`, // Interpolacion
+        message: res.__('ok.user'),
         obj: obj
     })).catch(ex => res.status(500).json({
-        message: "No se pudo consultar la informacion",
+        message: res.__('bad.user'),
         obj:ex
     }));
 }
@@ -49,10 +49,10 @@ async function create(req, res, next) {
     });
 
     user.save().then(obj => res.status(200).json({
-        message: "Usuario creado correctamente",
+        message: res.__('ok.user'),
         obj: obj
         })).catch(ex => res.status(500).json({
-            message: "No se pudo almacenar el usuario",
+            message: res.__('bad.user'),
             obj: ex
         }));
 }
@@ -71,10 +71,10 @@ function replace(req, res, next) {
     //User.findOneAndUpdate({},director,{}).then().catch();
     User.findOneAndUpdate({"_id":id},User,{new : true})
             .then(obj => res.status(200).json({
-                message: "User actualizado correctamente",
+                message: res.__('ok.user'),
                 obj: obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo actualizar la informacion",
+                message: res.__('bad.user'),
                 obj:ex
             }));
 }
@@ -99,10 +99,10 @@ function update(req, res, next) {
 
     User.findAndModify({"_id":id},User)
             .then(obj => res.status(200).json({
-                message:"User actualizado correctamente.",
+                message: res.__('ok.user'),
                 obj:obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo actualizar la User",
+                message: res.__('bad.user'),
                 obj:ex
             }));
 }
@@ -113,15 +113,15 @@ function addPermision(req,res,next){
     let user = new Object();
 
     if(permisionId){
-        user._permisions.push(permisionId,'Permision');
+        user._permisions.push({"type":permisionId, "ref":"Permision"});
     }
 
     User.findOneAndUpdate({"_id":id},user)
             .then(obj => res.status(200).json({
-                message:"permisos agregado correctamente.",
+                message: res.__('ok.user'),
                 obj:obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo actualizar los permisos",
+                message: res.__('bad.user'),
                 obj:ex
             }));
 }
@@ -130,10 +130,10 @@ function destroy(req, res, next) {
     const id = req.params.id;
     User.findByIdAndRemove({"_id":id})
             .then(obj => res.status(200).json({
-                message: "User eliminado correctamente",
+                message: res.__('ok.user'),
                 obj:obj
             })).catch(ex => res.status(500).json({
-                message: "No se pudo eliminar la User",
+                message: res.__('bad.user'),
                 obj:ex
             }));
 }
