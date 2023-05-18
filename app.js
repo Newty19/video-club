@@ -8,6 +8,9 @@ const config = require('config');
 const {expressjwt} = require('express-jwt');
 const i18n = require('i18n');
 const cors = require('cors');
+const Handlebars = require("handlebars");
+const template = Handlebars.compile("MESSAGE: {{name}}");
+console.log(template({ name: "USANDO HANDLEBARS!!!" }));
 
 
 const usersRouter = require('./routes/users');
